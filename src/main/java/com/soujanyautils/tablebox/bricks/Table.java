@@ -1,12 +1,35 @@
 package com.soujanyautils.tablebox.bricks;
 
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
 
+    PDRectangle tableDimensions;
+
+    public PDRectangle getTableDimensions() {
+        return tableDimensions;
+    }
+
+    public void setTableDimensions(PDRectangle tableDimensions) {
+        this.tableDimensions = tableDimensions;
+    }
+
     private float cellWidth;
 
-    private List<Row> records;
+    private List<Row> records = new ArrayList<>();
+
+    private Integer noOfColumns;
+
+    public Integer getNoOfColumns() {
+        return noOfColumns;
+    }
+
+    public void setNoOfColumns(Integer noOfColumns) {
+        this.noOfColumns = noOfColumns;
+    }
 
     public float getCellWidth() {
         return cellWidth;
