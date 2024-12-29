@@ -99,13 +99,15 @@ public class BoxTable {
     private static Table createSampleData(){
         Table table = new Table();
         int i = 0;
-        Row row = new Row();
-        for( i = 0; i<3; i++){
-            Cell cell = new Cell();
-            cell.setValue("This is " + i + "Length tester checking how many it can hold");
-            row.getCells().add(cell);
+        for(int j = 0; j<2; j++) {
+            Row row = new Row();
+            for (i = 0; i < 3; i++) {
+                Cell cell = new Cell();
+                cell.setValue("This is " + i +" " +j+ " Length tester checking how many it can hold");
+                row.getCells().add(cell);
+            }
+            table.getRecords().add(row);
         }
-        table.getRecords().add(row);
         table.setNoOfColumns(3);
         PDRectangle tableDimentions = new PDRectangle(20, 15, 300, 300);
         table.setTableDimensions(tableDimentions);

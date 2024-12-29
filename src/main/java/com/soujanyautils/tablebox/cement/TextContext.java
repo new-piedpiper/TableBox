@@ -10,6 +10,24 @@ public class TextContext {
     private PDPageContentStream contentStream;
     private Float maxCellLength;
     private PDFont font;
+    private Float endPtX;
+    private Float endPtY;
+
+    public Float getEndPtX() {
+        return endPtX;
+    }
+
+    public void setEndPtX(Float endPtX) {
+        this.endPtX = endPtX;
+    }
+
+    public Float getEndPtY() {
+        return endPtY;
+    }
+
+    public void setEndPtY(Float endPtY) {
+        this.endPtY = endPtY;
+    }
 
     public Float getStartingPtY() {
         return startingPtY;

@@ -30,16 +30,14 @@ public class TableRenderer {
             textContext.setContentStream(contentStream);
             contentStream.setLineWidth(2);
             contentStream.setStrokingColor(Color.BLACK);
-            textContext.setFontSize(9f);
-            contentStream.setLeading(17f);
+            textContext.setFontSize(10f);
+            contentStream.setLeading(textContext.getFontSize()*1f);
             layoutContext.setContentStream(contentStream);
-            layoutContext.setLineWidth(2);
             layoutContext.setxStart(table.getTableDimensions().getLowerLeftX());
             layoutContext.setyStart(table.getTableDimensions().getUpperRightY());
             int columnSize = table.getNoOfColumns();
             layoutContext.setColumnWidth(table.getTableDimensions().getWidth()/table.getNoOfColumns());
             textContext.setMaxCellLength(table.getTableDimensions().getWidth()/table.getNoOfColumns());
-            System.out.println((layoutContext.getColumnWidth() - 20));
             for(Row row : table.getRecords()){
                 layoutContext.setxStop(layoutContext.getxStart() + table.getTableDimensions().getWidth());
                 layoutContext.setyStop(layoutContext.getyStart());
@@ -49,7 +47,8 @@ public class TableRenderer {
                 for(Cell cell : row.getCells()){
                     textContext.setCelltext(cell.getValue());
                     TextEngine.drawText(textContext);
-                    textContext.setStartingPtX(textContext.getStartingPtX() + textContext.getMaxCellLength());
+                    textContext.setStartingPtX(textContext.getStartingPtX() + layoutContext.getColumnWidth());
+                    layoutContext.setyStop(textContext.getEndPtY()< layoutContext.getyStop()? textContext.getEndPtY() : layoutContext.getyStop());
                 }
                 drawPillers(layoutContext, table);
             }
@@ -66,7 +65,6 @@ public class TableRenderer {
         while(xCord<= table.getTableDimensions().getUpperRightX()){
             layoutContext.setxStart(xCord);
             layoutContext.setxStop(xCord);
-            layoutContext.setyStop(layoutContext.getyStart() - 15f);
             LayoutEngine.drawLine(layoutContext);
             xCord = xCord + layoutContext.getColumnWidth();
         }

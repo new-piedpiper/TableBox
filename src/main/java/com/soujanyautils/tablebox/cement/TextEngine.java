@@ -16,19 +16,26 @@ public class TextEngine {
         PDPageContentStream contentStream = textContext.getContentStream();
         contentStream.setFont(font, textContext.getFontSize());
         contentStream.beginText();
-        contentStream.newLineAtOffset(textContext.getStartingPtX() + 15, textContext.getStartingPtY() - 15);
+        contentStream.newLineAtOffset(textContext.getStartingPtX() + textContext.getMaxCellLength()*.10f, textContext.getStartingPtY() - textContext.getMaxCellLength()*.10f);
         Float fontSize = textContext.getFontSize();
         String[] chars = textContext.getCelltext().split("");
+        float ascent = font.getFontDescriptor().getAscent() / 1000 * fontSize;
+        float descent = font.getFontDescriptor().getDescent() / 1000 * fontSize;
+        float textHeight = ascent - descent;
+        textContext.setEndPtY(textContext.getStartingPtY() - textHeight);
+        System.out.println("Text height : "+textHeight);
         float currentLength = 0f;
         for(String token : chars){
             currentLength = currentLength + font.getStringWidth(token)*fontSize/1000f;
             if(currentLength >= (textContext.getMaxCellLength() - textContext.getMaxCellLength()*.20f)){
                 contentStream.newLine();
                 currentLength = 0f;
+                textContext.setEndPtY(textContext.getEndPtY()-textHeight);
             }
             System.out.println("Start x: "+ textContext.getStartingPtX() + "Start y: "+ textContext.getStartingPtY());
             contentStream.showText(token);
         }
+        textContext.setEndPtY(textContext.getEndPtY() - textContext.getMaxCellLength()*.10f);
         contentStream.endText();
     }
 
