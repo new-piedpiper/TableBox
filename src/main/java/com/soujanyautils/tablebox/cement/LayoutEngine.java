@@ -1,6 +1,6 @@
 package com.soujanyautils.tablebox.cement;
 
-import org.apache.pdfbox.contentstream.PDContentStream;
+import com.soujanyautils.tablebox.bricks.Table;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 
 import java.io.IOException;
@@ -11,9 +11,19 @@ public class LayoutEngine {
         PDPageContentStream contentStream = layoutContext.getContentStream();
         contentStream.moveTo(layoutContext.getxStart(), layoutContext.getyStart());
         contentStream.lineTo(layoutContext.getxStop(), layoutContext.getyStop());
-        System.out.println("Start x: "+ layoutContext.getxStart() + "Start y: "+ layoutContext.getyStart());
-        System.out.println("End x, y : " + layoutContext.getxStop() +" "+ layoutContext.getyStop());
         contentStream.stroke();
+    }
+
+    public static void drawVerticalGridLines(LayoutContext layoutContext, Table table) throws IOException {
+        float xCord = layoutContext.getxStart();
+        while (xCord <= table.getTableDimensions().getUpperRightX()) {
+            layoutContext.setxStart(xCord);
+            layoutContext.setxStop(xCord);
+            drawLine(layoutContext);
+            xCord = xCord + layoutContext.getColumnWidth();
+        }
+        layoutContext.setxStart(layoutContext.getxStart() - layoutContext.getTableWidth());
+        layoutContext.setyStart(layoutContext.getyStop());
     }
 
 }

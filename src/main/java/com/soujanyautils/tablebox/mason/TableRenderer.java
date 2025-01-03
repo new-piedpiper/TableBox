@@ -1,5 +1,6 @@
 package com.soujanyautils.tablebox.mason;
 
+import com.soujanyautils.tablebox.api.BoxTable;
 import com.soujanyautils.tablebox.bricks.Cell;
 import com.soujanyautils.tablebox.bricks.Row;
 import com.soujanyautils.tablebox.bricks.Table;
@@ -11,31 +12,27 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
-
-import java.awt.*;
-import java.io.IOException;
 
 public class TableRenderer {
 
-    public PDDocument drawTable(PDDocument document, PDPage page, Table table){
-        try(PDPageContentStream contentStream = new PDPageContentStream(document, page)){
-            LayoutContext layoutContext = new LayoutContext();
-            TextContext textContext = new TextContext();
-            PDFont font = new PDType1Font(Standard14Fonts.FontName.HELVETICA);
-            textContext.setFont(font);
-            layoutContext.setLineWidth(table.getTableDimensions().getWidth());
-            textContext.setContentStream(contentStream);
-            contentStream.setLineWidth(2);
-            contentStream.setStrokingColor(Color.BLACK);
-            textContext.setFontSize(10f);
-            contentStream.setLeading(textContext.getFontSize()*1f);
+    public static PDDocument drawTable(BoxTable boxTable){
+        PDPage page = new PDPage();
+        System.out.println(page.getBBox());
+        boxTable.getDocument().addPage(page);
+        try(PDPageContentStream contentStream = new PDPageContentStream(boxTable.getDocument(),page)){
+            LayoutContext layoutContext = boxTable.getLayoutContext();
+            TextContext textContext = boxTable.getTextContext();
+            PDRectangle boundingBox = page.getBBox();
+            Table table = boxTable.getTable();
             layoutContext.setContentStream(contentStream);
+            settableDimensions(table, boundingBox);
+            layoutContext.setTableWidth(table.getTableDimensions().getWidth());
+            textContext.setContentStream(contentStream);
+            contentStream.setLineWidth(layoutContext.getLineWidth());
+            contentStream.setStrokingColor(layoutContext.getLineColor());
+            contentStream.setLeading(textContext.getFontSize()*1f);
             layoutContext.setxStart(table.getTableDimensions().getLowerLeftX());
             layoutContext.setyStart(table.getTableDimensions().getUpperRightY());
-            int columnSize = table.getNoOfColumns();
             layoutContext.setColumnWidth(table.getTableDimensions().getWidth()/table.getNoOfColumns());
             textContext.setMaxCellLength(table.getTableDimensions().getWidth()/table.getNoOfColumns());
             for(Row row : table.getRecords()){
@@ -50,27 +47,26 @@ public class TableRenderer {
                     textContext.setStartingPtX(textContext.getStartingPtX() + layoutContext.getColumnWidth());
                     layoutContext.setyStop(textContext.getEndPtY()< layoutContext.getyStop()? textContext.getEndPtY() : layoutContext.getyStop());
                 }
-                drawPillers(layoutContext, table);
+                LayoutEngine.drawVerticalGridLines(layoutContext, table);
             }
+            layoutContext.setxStop(layoutContext.getxStart() + table.getTableDimensions().getWidth());
+            layoutContext.setyStop(layoutContext.getyStart());
+            LayoutEngine.drawLine(layoutContext);
             contentStream.close();
         }catch (Exception e){
             System.out.println(e);
         }
-        return document;
+        return boxTable.getDocument();
     }
 
-
-    private void drawPillers(LayoutContext layoutContext, Table table) throws IOException {
-        float xCord = layoutContext.getxStart();
-        while(xCord<= table.getTableDimensions().getUpperRightX()){
-            layoutContext.setxStart(xCord);
-            layoutContext.setxStop(xCord);
-            LayoutEngine.drawLine(layoutContext);
-            xCord = xCord + layoutContext.getColumnWidth();
-        }
-        layoutContext.setxStart(layoutContext.getxStart() - layoutContext.getLineWidth());
-        layoutContext.setyStart(layoutContext.getyStop());
+    private static void settableDimensions(Table table, PDRectangle pageDimensions) {
+        Float heightPadding = pageDimensions.getHeight() * 0.10f;
+        Float widthPadding = pageDimensions.getWidth() * 0.15f;
+        PDRectangle tableDimensions = new PDRectangle();
+        tableDimensions.setUpperRightX(pageDimensions.getUpperRightX() - widthPadding);
+        tableDimensions.setUpperRightY(pageDimensions.getUpperRightY() - heightPadding);
+        tableDimensions.setLowerLeftY(pageDimensions.getLowerLeftY() - heightPadding);
+        tableDimensions.setLowerLeftX(pageDimensions.getLowerLeftX() + widthPadding);
+        table.setTableDimensions(tableDimensions);
     }
-
-
 }

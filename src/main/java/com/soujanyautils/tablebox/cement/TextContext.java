@@ -13,6 +13,26 @@ public class TextContext {
     private Float endPtX;
     private Float endPtY;
 
+    public Float getTextHeight() {
+        return textHeight;
+    }
+
+    public void setTextHeight(Float textHeight) {
+        this.textHeight = textHeight;
+    }
+
+    private Float textHeight;
+
+    public Float getTextPadding() {
+        return textPadding;
+    }
+
+    public void setTextPadding(Float textPadding) {
+        this.textPadding = textPadding;
+    }
+
+    private Float textPadding;
+
     public Float getEndPtX() {
         return endPtX;
     }
