@@ -1,7 +1,13 @@
 package com.soujanyautils.tablebox.cement;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class TextContext {
 
@@ -12,6 +18,25 @@ public class TextContext {
     private PDFont font;
     private Float endPtX;
     private Float endPtY;
+    private Float tableEndY;
+    private PDDocument document;
+    private Queue<PageOverFlowState> pageOverFlows = new LinkedList<>();
+
+    public PDDocument getDocument() {
+        return document;
+    }
+
+    public void setDocument(PDDocument document) {
+        this.document = document;
+    }
+
+    public Float getTableEndY() {
+        return tableEndY;
+    }
+
+    public void setTableEndY(Float tableEndY) {
+        this.tableEndY = tableEndY;
+    }
 
     public Float getTextHeight() {
         return textHeight;
@@ -103,6 +128,14 @@ public class TextContext {
 
     public PDPageContentStream getContentStream() {
         return contentStream;
+    }
+
+    public Queue<PageOverFlowState> getPageOverFlows() {
+        return pageOverFlows;
+    }
+
+    public void setPageOverFlows(Queue<PageOverFlowState> pageOverFlows) {
+        this.pageOverFlows = pageOverFlows;
     }
 
     public void setContentStream(PDPageContentStream contentStream) {

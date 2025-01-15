@@ -7,24 +7,16 @@ import com.soujanyautils.tablebox.cement.DataTransformer;
 import com.soujanyautils.tablebox.cement.LayoutContext;
 import com.soujanyautils.tablebox.cement.TextContext;
 import com.soujanyautils.tablebox.mason.TableRenderer;
-import org.apache.pdfbox.cos.COSBase;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.font.*;
-import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
-import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
-import org.apache.pdfbox.util.Matrix;
-import org.w3c.dom.Document;
-import org.w3c.dom.Text;
+import org.apache.pdfbox.pdmodel.font.PDFont;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 
 public class BoxTable {

@@ -17,14 +17,23 @@ public class TextEngine {
         String[] chars = textContext.getCelltext().split("");
         textContext.setEndPtY(textContext.getStartingPtY() - textContext.getTextHeight());
         float currentLength = 0f;
-        for (String token : chars) {
-            currentLength = currentLength + font.getStringWidth(token) * fontSize / 1000f;
+        for (int i = 0; i<chars.length; i++) {
+            currentLength = currentLength + font.getStringWidth(chars[i]) * fontSize / 1000f;
             if (currentLength >= (textContext.getMaxCellLength() - textContext.getTextPadding() * 2f)) {
                 contentStream.newLine();
                 currentLength = 0f;
                 textContext.setEndPtY(textContext.getEndPtY() - textContext.getTextHeight());
+                if(textContext.getEndPtY() <= textContext.getTableEndY()){
+                    System.out.println("NextPageHere");
+                    PageOverFlowState overFlowState = new PageOverFlowState();
+                    overFlowState.setCurrentX(textContext.getStartingPtX());
+                    overFlowState.setCellValueIndex(i);
+                    overFlowState.setCellValue(textContext.getCelltext().substring(i));
+                    textContext.getPageOverFlows().add(overFlowState);
+                    break;
+                }
             }
-            contentStream.showText(token);
+            contentStream.showText(chars[i]);
         }
         textContext.setEndPtY(textContext.getEndPtY() - textContext.getTextPadding());
         contentStream.endText();
