@@ -51,17 +51,19 @@ public class TableRenderer {
                     layoutContext.setyStop(textContext.getEndPtY()< layoutContext.getyStop()? textContext.getEndPtY() : layoutContext.getyStop());
                 }
                 LayoutEngine.drawVerticalGridLines(layoutContext, table);
-                if(layoutContext.getyStop()<= textContext.getTableEndY()){
+                if(layoutContext.getyStop()<= textContext.getTableEndY() || !textContext.getPageOverFlows().isEmpty()) {
                     contentStream.close();
                     System.out.println("Entered nextpage");
                     contentStream = flowToNewPage(layoutContext, textContext, boxTable.getDocument(), table);
-                if(!textContext.getPageOverFlows().isEmpty()) {
-                    for (PageOverFlowState overFlowState = textContext.getPageOverFlows().poll(); overFlowState != null; overFlowState = textContext.getPageOverFlows().poll()) {
-                        textContext.setCelltext(overFlowState.getCellValue());
-                        textContext.setStartingPtX(overFlowState.getCurrentX());
-                        TextEngine.drawText(textContext);
+                    if(!textContext.getPageOverFlows().isEmpty()) {
+                        for (PageOverFlowState overFlowState = textContext.getPageOverFlows().poll(); overFlowState != null; overFlowState = textContext.getPageOverFlows().poll()) {
+                            textContext.setCelltext(overFlowState.getCellValue());
+                            textContext.setStartingPtX(overFlowState.getCurrentX());
+                            TextEngine.drawText(textContext);
+                            layoutContext.setyStop(textContext.getEndPtY() < layoutContext.getyStop() ? textContext.getEndPtY() : layoutContext.getyStop());
+                        }
+                        LayoutEngine.drawVerticalGridLines(layoutContext, table);
                     }
-                }
                 }
                 System.out.println("test");
             }
@@ -97,6 +99,7 @@ public class TableRenderer {
             contentStream.setLeading(textContext.getFontSize()*1f);
             layoutContext.setxStart(table.getTableDimensions().getLowerLeftX());
             layoutContext.setyStart(table.getTableDimensions().getUpperRightY());
+        layoutContext.setyStop(layoutContext.getyStart());
             textContext.setContentStream(contentStream);
             textContext.setStartingPtX(layoutContext.getxStart());
             textContext.setStartingPtY(layoutContext.getyStart());

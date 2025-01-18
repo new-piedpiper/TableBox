@@ -55,7 +55,7 @@ public class TestClass {
                 , List.of("1", "Apple", "100(KG)", "100")
                 , List.of("1", "Apple", "100(KG)", "100")
                 , List.of("1", "Apple", "100(KG)", "100")
-                , List.of("1", "Apple", "100(KG)", "100")
+                , List.of("1", "A cell with very very very very very very very very very very long text", "100(KG)", "100000000000000000000000000000000000000000000000000000000000000000")
                 , List.of("1", "Apple", "100(KG)", "100")
                 , List.of("1", "Apple", "100(KG)", "100")
                 , List.of("1", "Apple", "100(KG)", "100")
