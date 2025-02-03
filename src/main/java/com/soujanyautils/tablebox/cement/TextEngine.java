@@ -14,7 +14,7 @@ public class TextEngine {
         contentStream.beginText();
         contentStream.newLineAtOffset(textContext.getStartingPtX() + textContext.getTextPadding(), textContext.getStartingPtY() - textContext.getTextPadding());
         Float fontSize = textContext.getFontSize();
-        String[] chars = textContext.getCelltext().split("");
+        String[] chars = textContext.getCurrText().split("");
         textContext.setEndPtY(textContext.getStartingPtY() - textContext.getTextHeight());
         float currentLength = 0f;
         for (int i = 0; i<chars.length; i++) {
@@ -27,8 +27,7 @@ public class TextEngine {
                     System.out.println("NextPageHere");
                     PageOverFlowState overFlowState = new PageOverFlowState();
                     overFlowState.setCurrentX(textContext.getStartingPtX());
-                    overFlowState.setCellValueIndex(i);
-                    overFlowState.setCellValue(textContext.getCelltext().substring(i));
+                    overFlowState.setCellValue(textContext.getCurrText().substring(i));
                     textContext.getPageOverFlows().add(overFlowState);
                     break;
                 }

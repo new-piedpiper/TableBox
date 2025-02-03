@@ -13,10 +13,6 @@ public class LayoutContext {
     private PDPageContentStream contentStream;
     private float tableWidth;
     private float columnWidth;
-    private float xLineStart;
-    private float yLineStart;
-    private float xLineStop;
-    private float yLineStop;
     private float lineWidth;
     private Color lineColor;
 
@@ -34,38 +30,6 @@ public class LayoutContext {
 
     public void setLineWidth(float lineWidth) {
         this.lineWidth = lineWidth;
-    }
-
-    public float getxLineStart() {
-        return xLineStart;
-    }
-
-    public void setxLineStart(float xLineStart) {
-        this.xLineStart = xLineStart;
-    }
-
-    public float getyLineStart() {
-        return yLineStart;
-    }
-
-    public void setyLineStart(float yLineStart) {
-        this.yLineStart = yLineStart;
-    }
-
-    public float getxLineStop() {
-        return xLineStop;
-    }
-
-    public void setxLineStop(float xLineStop) {
-        this.xLineStop = xLineStop;
-    }
-
-    public float getyLineStop() {
-        return yLineStop;
-    }
-
-    public void setyLineStop(float yLineStop) {
-        this.yLineStop = yLineStop;
     }
 
     public float getColumnWidth() {

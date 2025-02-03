@@ -45,7 +45,7 @@ public class TableRenderer {
                 textContext.setStartingPtX(layoutContext.getxStart());
                 textContext.setStartingPtY(layoutContext.getyStart());
                 for(Cell cell : row.getCells()){
-                    textContext.setCelltext(cell.getValue());
+                    textContext.setCurrText(cell.getValue());
                     TextEngine.drawText(textContext);
                     textContext.setStartingPtX(textContext.getStartingPtX() + layoutContext.getColumnWidth());
                     layoutContext.setyStop(textContext.getEndPtY()< layoutContext.getyStop()? textContext.getEndPtY() : layoutContext.getyStop());
@@ -57,7 +57,7 @@ public class TableRenderer {
                     contentStream = flowToNewPage(layoutContext, textContext, boxTable.getDocument(), table);
                     if(!textContext.getPageOverFlows().isEmpty()) {
                         for (PageOverFlowState overFlowState = textContext.getPageOverFlows().poll(); overFlowState != null; overFlowState = textContext.getPageOverFlows().poll()) {
-                            textContext.setCelltext(overFlowState.getCellValue());
+                            textContext.setCurrText(overFlowState.getCellValue());
                             textContext.setStartingPtX(overFlowState.getCurrentX());
                             TextEngine.drawText(textContext);
                             layoutContext.setyStop(textContext.getEndPtY() < layoutContext.getyStop() ? textContext.getEndPtY() : layoutContext.getyStop());

@@ -4,8 +4,6 @@ public class Cell {
 
     private String value;
 
-    private float cellHeight;
-
     public String getValue() {
         return value;
     }
@@ -14,11 +12,4 @@ public class Cell {
         this.value = value;
     }
 
-    public float getCellHeight() {
-        return cellHeight;
-    }
-
-    public void setCellHeight(float cellHeight) {
-        this.cellHeight = cellHeight;
-    }
 }

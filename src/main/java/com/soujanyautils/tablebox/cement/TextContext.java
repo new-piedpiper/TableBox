@@ -1,13 +1,10 @@
 package com.soujanyautils.tablebox.cement;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class TextContext {
 
@@ -16,19 +13,13 @@ public class TextContext {
     private PDPageContentStream contentStream;
     private Float maxCellLength;
     private PDFont font;
-    private Float endPtX;
     private Float endPtY;
     private Float tableEndY;
-    private PDDocument document;
+    private Float textHeight;
     private Queue<PageOverFlowState> pageOverFlows = new LinkedList<>();
-
-    public PDDocument getDocument() {
-        return document;
-    }
-
-    public void setDocument(PDDocument document) {
-        this.document = document;
-    }
+    private String currText;
+    private Float fontSize;
+    private Float textPadding;
 
     public Float getTableEndY() {
         return tableEndY;
@@ -46,24 +37,12 @@ public class TextContext {
         this.textHeight = textHeight;
     }
 
-    private Float textHeight;
-
     public Float getTextPadding() {
         return textPadding;
     }
 
     public void setTextPadding(Float textPadding) {
         this.textPadding = textPadding;
-    }
-
-    private Float textPadding;
-
-    public Float getEndPtX() {
-        return endPtX;
-    }
-
-    public void setEndPtX(Float endPtX) {
-        this.endPtX = endPtX;
     }
 
     public Float getEndPtY() {
@@ -106,8 +85,6 @@ public class TextContext {
         this.fontSize = fontSize;
     }
 
-    private Float fontSize;
-
     public Float getMaxCellLength() {
         return maxCellLength;
     }
@@ -116,15 +93,13 @@ public class TextContext {
         this.maxCellLength = maxCellLength;
     }
 
-    public String getCelltext() {
-        return celltext;
+    public String getCurrText() {
+        return currText;
     }
 
-    public void setCelltext(String celltext) {
-        this.celltext = celltext;
+    public void setCurrText(String currText) {
+        this.currText = currText;
     }
-
-    private String celltext;
 
     public PDPageContentStream getContentStream() {
         return contentStream;
