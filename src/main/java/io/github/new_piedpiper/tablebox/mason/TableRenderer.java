@@ -1,10 +1,11 @@
-package com.soujanyautils.tablebox.mason;
+package io.github.new_piedpiper.tablebox.mason;
 
-import com.soujanyautils.tablebox.api.BoxTable;
-import com.soujanyautils.tablebox.bricks.Cell;
-import com.soujanyautils.tablebox.bricks.Row;
-import com.soujanyautils.tablebox.bricks.Table;
+import io.github.new_piedpiper.tablebox.api.BoxTable;
+import io.github.new_piedpiper.tablebox.bricks.Cell;
+import io.github.new_piedpiper.tablebox.bricks.Row;
+import io.github.new_piedpiper.tablebox.bricks.Table;
 import com.soujanyautils.tablebox.cement.*;
+import io.github.new_piedpiper.tablebox.cement.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -53,7 +54,6 @@ public class TableRenderer {
                 LayoutEngine.drawVerticalGridLines(layoutContext, table);
                 if(layoutContext.getyStop()<= textContext.getTableEndY() || !textContext.getPageOverFlows().isEmpty()) {
                     contentStream.close();
-                    System.out.println("Entered nextpage");
                     contentStream = flowToNewPage(layoutContext, textContext, boxTable.getDocument(), table);
                     if(!textContext.getPageOverFlows().isEmpty()) {
                         for (PageOverFlowState overFlowState = textContext.getPageOverFlows().poll(); overFlowState != null; overFlowState = textContext.getPageOverFlows().poll()) {
@@ -65,7 +65,6 @@ public class TableRenderer {
                         LayoutEngine.drawVerticalGridLines(layoutContext, table);
                     }
                 }
-                System.out.println("test");
             }
             layoutContext.setxStop(layoutContext.getxStart() + table.getTableDimensions().getWidth());
             layoutContext.setyStop(layoutContext.getyStart());
@@ -99,7 +98,7 @@ public class TableRenderer {
             contentStream.setLeading(textContext.getFontSize()*1f);
             layoutContext.setxStart(table.getTableDimensions().getLowerLeftX());
             layoutContext.setyStart(table.getTableDimensions().getUpperRightY());
-        layoutContext.setyStop(layoutContext.getyStart());
+            layoutContext.setyStop(layoutContext.getyStart());
             textContext.setContentStream(contentStream);
             textContext.setStartingPtX(layoutContext.getxStart());
             textContext.setStartingPtY(layoutContext.getyStart());

@@ -1,11 +1,8 @@
-package com.soujanyautils.tablebox.cement;
+package io.github.new_piedpiper.tablebox.cement;
 
-import com.soujanyautils.tablebox.bricks.Table;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
+import io.github.new_piedpiper.tablebox.bricks.Table;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class LayoutEngine {

@@ -1,17 +1,17 @@
-package com.soujanyautils.tablebox.api;
+package io.github.new_piedpiper.tablebox.api;
 
-import com.soujanyautils.tablebox.bricks.Table;
-import com.soujanyautils.tablebox.cement.DataTransformer;
-import com.soujanyautils.tablebox.cement.LayoutContext;
-import com.soujanyautils.tablebox.cement.TextContext;
-import com.soujanyautils.tablebox.mason.TableRenderer;
+import io.github.new_piedpiper.tablebox.bricks.Table;
+import io.github.new_piedpiper.tablebox.cement.DataTransformer;
+import io.github.new_piedpiper.tablebox.cement.LayoutContext;
+import io.github.new_piedpiper.tablebox.cement.TextContext;
+import io.github.new_piedpiper.tablebox.mason.TableRenderer;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 
 import java.awt.Color;
 import java.util.List;
 
-/*
+/**
 Main api for creating Pdf.
  */
 public class BoxTable {
@@ -68,7 +68,7 @@ public class BoxTable {
             return new BoxTable(this);
         }
 
-        /*
+        /**
         Add the document to which the table is to be added.
          */
         public Builder setDocument(PDDocument document){
@@ -76,7 +76,7 @@ public class BoxTable {
             return this;
         }
 
-        /*
+        /**
         Add the data in a list of string list format
          */
         public Builder setData(List<List<String>> data){
@@ -84,7 +84,7 @@ public class BoxTable {
             return this;
         }
 
-        /*
+        /**
         Add the font to be used
          */
         public Builder setFont(PDFont font){
@@ -92,7 +92,7 @@ public class BoxTable {
             return this;
         }
 
-        /*
+        /**
         Set the line thickness of the table gridlines.
          */
         public Builder setLineThickness(Float lineThickness){
@@ -100,7 +100,7 @@ public class BoxTable {
             return this;
         }
 
-        /*
+        /**
         Set the color of the table gridlines
          */
         public Builder setLineColor(Color lineColor){
@@ -108,7 +108,7 @@ public class BoxTable {
             return this;
         }
 
-        /*
+        /**
         Set the font size for the table contents
          */
         public Builder setFontSize(Float fontSize){
@@ -116,14 +116,17 @@ public class BoxTable {
             return this;
         }
 
+        /**
+         * Set the horizontal and vertical padding.
+         */
         public Builder setTextPadding(Float textPadding){
             this.textPadding = textPadding;
             return this;
         }
     }
 
-    /*
-    Method for creating the table.
+    /**
+     *Method for creating the table.
      */
     public PDDocument createTable(){
         return  TableRenderer.drawTable(this);

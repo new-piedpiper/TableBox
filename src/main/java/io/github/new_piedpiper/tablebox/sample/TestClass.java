@@ -1,5 +1,6 @@
-package com.soujanyautils.tablebox.api;
+package io.github.new_piedpiper.tablebox.sample;
 
+import io.github.new_piedpiper.tablebox.api.BoxTable;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;

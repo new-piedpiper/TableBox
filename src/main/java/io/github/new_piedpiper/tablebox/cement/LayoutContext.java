@@ -1,4 +1,4 @@
-package com.soujanyautils.tablebox.cement;
+package io.github.new_piedpiper.tablebox.cement;
 
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 

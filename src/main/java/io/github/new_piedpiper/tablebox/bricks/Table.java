@@ -1,4 +1,4 @@
-package com.soujanyautils.tablebox.bricks;
+package io.github.new_piedpiper.tablebox.bricks;
 
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 

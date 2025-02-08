@@ -1,8 +1,8 @@
-package com.soujanyautils.tablebox.cement;
+package io.github.new_piedpiper.tablebox.cement;
 
-import com.soujanyautils.tablebox.bricks.Cell;
-import com.soujanyautils.tablebox.bricks.Row;
-import com.soujanyautils.tablebox.bricks.Table;
+import io.github.new_piedpiper.tablebox.bricks.Cell;
+import io.github.new_piedpiper.tablebox.bricks.Row;
+import io.github.new_piedpiper.tablebox.bricks.Table;
 
 import java.util.List;
 
