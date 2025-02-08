@@ -128,7 +128,7 @@ public class BoxTable {
     /**
      *Method for creating the table.
      */
-    public PDDocument createTable(){
+    public DocumentTableState createTable(){
         return  TableRenderer.drawTable(this);
     }
 

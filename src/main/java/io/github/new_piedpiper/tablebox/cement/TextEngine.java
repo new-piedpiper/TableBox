@@ -24,7 +24,6 @@ public class TextEngine {
                 currentLength = 0f;
                 textContext.setEndPtY(textContext.getEndPtY() - textContext.getTextHeight());
                 if(textContext.getEndPtY() <= textContext.getTableEndY()){
-                    System.out.println("NextPageHere");
                     PageOverFlowState overFlowState = new PageOverFlowState();
                     overFlowState.setCurrentX(textContext.getStartingPtX());
                     overFlowState.setCellValue(textContext.getCurrText().substring(i));

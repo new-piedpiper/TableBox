@@ -13,22 +13,22 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
-public class TestClass {
+public class MultiPageTable {
 
     public static void main(String... args) {
-        Instant start = Instant.now();
         PDDocument document = new PDDocument();
         try {
             PDFont font = new PDType1Font(Standard14Fonts.FontName.HELVETICA);
             BoxTable boxTable = new BoxTable.Builder().setData(createData()).setDocument(document).setLineColor(Color.BLACK).setFontSize(10f).setTextPadding(15f).setLineThickness(1f).setFont(font).build();
-            document = boxTable.createTable();
-            document.save(new File("C:/Users/anugr/Documents/Projects/TableBox/file.pdf"));
+            Instant start = Instant.now();
+            document = boxTable.createTable().getDocument();
+            Instant stop = Instant.now();
+            System.out.println("Time : " + Duration.between(start, stop).getNano());
+            document.save(new File("../file.pdf"));
             document.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Instant stop = Instant.now();
-        System.out.println("Time : " + Duration.between(start, stop).getNano());
     }
 
     private static List<List<String>> createData() {

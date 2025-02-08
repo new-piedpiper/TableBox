@@ -9,7 +9,6 @@ public class LayoutEngine {
 
     public static void drawLine(LayoutContext layoutContext) throws IOException {
         PDPageContentStream contentStream = layoutContext.getContentStream();
-        System.out.println(contentStream);
         contentStream.moveTo(layoutContext.getxStart(), layoutContext.getyStart());
         contentStream.lineTo(layoutContext.getxStop(), layoutContext.getyStop());
         contentStream.stroke();

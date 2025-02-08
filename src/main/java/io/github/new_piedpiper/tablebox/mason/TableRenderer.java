@@ -1,10 +1,10 @@
 package io.github.new_piedpiper.tablebox.mason;
 
 import io.github.new_piedpiper.tablebox.api.BoxTable;
+import io.github.new_piedpiper.tablebox.api.DocumentTableState;
 import io.github.new_piedpiper.tablebox.bricks.Cell;
 import io.github.new_piedpiper.tablebox.bricks.Row;
 import io.github.new_piedpiper.tablebox.bricks.Table;
-import com.soujanyautils.tablebox.cement.*;
 import io.github.new_piedpiper.tablebox.cement.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -15,14 +15,13 @@ import java.io.IOException;
 
 public class TableRenderer {
 
-    public static PDDocument drawTable(BoxTable boxTable){
+    public static DocumentTableState drawTable(BoxTable boxTable) {
         PDPage page = new PDPage();
-        System.out.println(page.getBBox());
         boxTable.getDocument().addPage(page);
-        try{
-            PDPageContentStream contentStream = new PDPageContentStream(boxTable.getDocument(),page);
-            LayoutContext layoutContext = boxTable.getLayoutContext();
-            TextContext textContext = boxTable.getTextContext();
+        LayoutContext layoutContext = boxTable.getLayoutContext();
+        TextContext textContext = boxTable.getTextContext();
+        try {
+            PDPageContentStream contentStream = new PDPageContentStream(boxTable.getDocument(), page);
             PDRectangle boundingBox = page.getBBox();
             Table table = boxTable.getTable();
             layoutContext.setContentStream(contentStream);
@@ -32,30 +31,28 @@ public class TableRenderer {
             textContext.setContentStream(contentStream);
             contentStream.setLineWidth(layoutContext.getLineWidth());
             contentStream.setStrokingColor(layoutContext.getLineColor());
-            contentStream.setLeading(textContext.getFontSize()*1f);
+            contentStream.setLeading(textContext.getFontSize() * 1f);
             layoutContext.setxStart(table.getTableDimensions().getLowerLeftX());
             layoutContext.setyStart(table.getTableDimensions().getUpperRightY());
-            layoutContext.setColumnWidth(table.getTableDimensions().getWidth()/table.getNoOfColumns());
-            textContext.setMaxCellLength(table.getTableDimensions().getWidth()/table.getNoOfColumns());
-            for(Row row : table.getRecords()){
+            layoutContext.setColumnWidth(table.getTableDimensions().getWidth() / table.getNoOfColumns());
+            textContext.setMaxCellLength(table.getTableDimensions().getWidth() / table.getNoOfColumns());
+            for (Row row : table.getRecords()) {
                 layoutContext.setxStop(layoutContext.getxStart() + table.getTableDimensions().getWidth());
                 layoutContext.setyStop(layoutContext.getyStart());
-                System.out.println("Start of X and Y Layout & Text : " + layoutContext.getxStart() + " "+ layoutContext.getyStart() + " " + textContext.getStartingPtX() + " " + textContext.getStartingPtY());
-                System.out.println(layoutContext.getContentStream());
                 LayoutEngine.drawLine(layoutContext);
                 textContext.setStartingPtX(layoutContext.getxStart());
                 textContext.setStartingPtY(layoutContext.getyStart());
-                for(Cell cell : row.getCells()){
+                for (Cell cell : row.getCells()) {
                     textContext.setCurrText(cell.getValue());
                     TextEngine.drawText(textContext);
                     textContext.setStartingPtX(textContext.getStartingPtX() + layoutContext.getColumnWidth());
-                    layoutContext.setyStop(textContext.getEndPtY()< layoutContext.getyStop()? textContext.getEndPtY() : layoutContext.getyStop());
+                    layoutContext.setyStop(textContext.getEndPtY() < layoutContext.getyStop() ? textContext.getEndPtY() : layoutContext.getyStop());
                 }
                 LayoutEngine.drawVerticalGridLines(layoutContext, table);
-                if(layoutContext.getyStop()<= textContext.getTableEndY() || !textContext.getPageOverFlows().isEmpty()) {
+                if (layoutContext.getyStop() <= textContext.getTableEndY() || !textContext.getPageOverFlows().isEmpty()) {
                     contentStream.close();
                     contentStream = flowToNewPage(layoutContext, textContext, boxTable.getDocument(), table);
-                    if(!textContext.getPageOverFlows().isEmpty()) {
+                    if (!textContext.getPageOverFlows().isEmpty()) {
                         for (PageOverFlowState overFlowState = textContext.getPageOverFlows().poll(); overFlowState != null; overFlowState = textContext.getPageOverFlows().poll()) {
                             textContext.setCurrText(overFlowState.getCellValue());
                             textContext.setStartingPtX(overFlowState.getCurrentX());
@@ -70,10 +67,14 @@ public class TableRenderer {
             layoutContext.setyStop(layoutContext.getyStart());
             LayoutEngine.drawLine(layoutContext);
             contentStream.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
-        return boxTable.getDocument();
+        DocumentTableState docTableState = new DocumentTableState();
+        docTableState.setCurrentPosX(layoutContext.getxStop());
+        docTableState.setCurrentPosY(layoutContext.getyStop());
+        docTableState.setDocument(boxTable.getDocument());
+        return docTableState;
     }
 
     private static void setTableDimensions(Table table, PDRectangle pageDimensions) {
@@ -89,7 +90,6 @@ public class TableRenderer {
 
     public static PDPageContentStream flowToNewPage(LayoutContext layoutContext, TextContext textContext, PDDocument document, Table table) throws IOException {
         PDPage page = new PDPage(document.getPage(document.getNumberOfPages()-1).getBBox());
-        System.out.println(page.getBBox());
         document.addPage(page);
         PDPageContentStream contentStream = new PDPageContentStream(document, page);
             layoutContext.setContentStream(contentStream);
@@ -102,7 +102,6 @@ public class TableRenderer {
             textContext.setContentStream(contentStream);
             textContext.setStartingPtX(layoutContext.getxStart());
             textContext.setStartingPtY(layoutContext.getyStart());
-            System.out.println("Start of X and Y Layout & Text : " + layoutContext.getxStart() + " "+ layoutContext.getyStart() + " " + textContext.getStartingPtX() + " " + textContext.getStartingPtY());
             return contentStream;
     }
 }
