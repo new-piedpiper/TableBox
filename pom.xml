@@ -6,12 +6,28 @@
 
     <groupId>io.github.new_piedpiper</groupId>
     <artifactId>TableBox</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.1-alpha</version>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <url>https://github.com/new-piedpiper/TableBox</url>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Anugrah</name>
+            <email>anugrahv213@gmail.com</email>
+            <organizationUrl>https://github.com/new-piedpiper</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <property name="maven.compiler.excludes" value="**/src/main/java/io/github/new_piedpiper/tablebox/sample"/>
     </properties>
 
     <dependencies>
@@ -28,6 +44,27 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.11.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
