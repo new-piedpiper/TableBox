@@ -1,6 +1,6 @@
 package io.github.new_piedpiper.tablebox.mason;
 
-import io.github.new_piedpiper.tablebox.api.BoxTable;
+import io.github.new_piedpiper.tablebox.api.TableBox;
 import io.github.new_piedpiper.tablebox.api.DocumentTableState;
 import io.github.new_piedpiper.tablebox.bricks.Cell;
 import io.github.new_piedpiper.tablebox.bricks.Row;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class TableRenderer {
 
-    public static DocumentTableState drawTable(BoxTable boxTable) {
+    public static DocumentTableState drawTable(TableBox boxTable) {
         PDPage page = new PDPage();
         boxTable.getDocument().addPage(page);
         LayoutContext layoutContext = boxTable.getLayoutContext();

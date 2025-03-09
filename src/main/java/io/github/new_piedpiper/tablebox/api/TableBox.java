@@ -13,8 +13,9 @@ import java.util.List;
 
 /**
 Main api for creating Pdf.
+ @author anugrahv
  */
-public class BoxTable {
+public class TableBox {
 
     private LayoutContext layoutContext;
     private PDDocument document;
@@ -39,7 +40,7 @@ public class BoxTable {
         return layoutContext;
     }
 
-    private BoxTable(Builder builder){
+    private TableBox(Builder builder){
         LayoutContext layoutContext = new LayoutContext();
         layoutContext.setLineColor(builder.lineColor == null? lineColor : builder.lineColor);
         layoutContext.setLineWidth(builder.lineThickness == null? lineThickness : builder.lineThickness);
@@ -52,36 +53,18 @@ public class BoxTable {
         textContext.setTextHeight(textHeight);
         this.textContext = textContext;
         this.document = builder.document;
-        this.table = DataTransformer.convertToTableStructure(builder.data);
     }
 
     public static class Builder{
         private PDDocument document;
         private PDFont font;
-        private List<List<String>> data;
         private Float lineThickness;
         private Color lineColor;
         private Float fontSize;
         private Float textPadding;
 
-        public BoxTable build(){
-            return new BoxTable(this);
-        }
-
-        /**
-        Add the document to which the table is to be added.
-         */
-        public Builder setDocument(PDDocument document){
-            this.document = document;
-            return this;
-        }
-
-        /**
-        Add the data in a list of string list format
-         */
-        public Builder setData(List<List<String>> data){
-            this.data = data;
-            return this;
+        public TableBox build(){
+            return new TableBox(this);
         }
 
         /**
@@ -130,6 +113,20 @@ public class BoxTable {
      */
     public DocumentTableState createTable(){
         return  TableRenderer.drawTable(this);
+    }
+
+    /**
+     Add the data in a list of string list format
+     */
+    public void setData(List<List<String>> data){
+        this.table = DataTransformer.convertToTableStructure(data);
+    }
+
+    /**
+     Set the document to which the table is to be added.
+     */
+    public void setDocument(PDDocument document){
+        this.document = document;
     }
 
 }

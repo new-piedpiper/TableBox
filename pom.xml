@@ -4,10 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.new_piedpiper</groupId>
+    <groupId>io.github.new-piedpiper</groupId>
     <artifactId>TableBox</artifactId>
-    <version>0.0.1-alpha</version>
+    <version>0.0.2</version>
     <name>${project.groupId}:${project.artifactId}</name>
+    <description>APIs for creating tables on top of the Apache PdfBox</description>
     <url>https://github.com/new-piedpiper/TableBox</url>
     <licenses>
         <license>
@@ -22,6 +23,12 @@
             <organizationUrl>https://github.com/new-piedpiper</organizationUrl>
         </developer>
     </developers>
+
+    <scm>
+        <url>https://github.com/new-piedpiper/TableBox</url>
+        <connection>scm:git:git://github.com/new-piedpiper/TableBox.git</connection>
+        <developerConnection>scm:git:ssh:git@github.com:new-piedpiper/TableBox.git</developerConnection>
+    </scm>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -52,6 +59,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <includes>
+                        <include>io/github/new_pipedpiper/tablebox/api</include>
+                    </includes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -65,6 +77,39 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <excludes>
+                        <exclude>io/github/new_pipedpiper/tablebox/sample/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.6.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
             </plugin>
         </plugins>
     </build>

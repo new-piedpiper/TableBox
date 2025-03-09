@@ -1,6 +1,6 @@
 package io.github.new_piedpiper.tablebox.sample;
 
-import io.github.new_piedpiper.tablebox.api.BoxTable;
+import io.github.new_piedpiper.tablebox.api.TableBox;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
@@ -19,7 +19,9 @@ public class MultiPageTable {
         PDDocument document = new PDDocument();
         try {
             PDFont font = new PDType1Font(Standard14Fonts.FontName.HELVETICA);
-            BoxTable boxTable = new BoxTable.Builder().setData(createData()).setDocument(document).setLineColor(Color.BLACK).setFontSize(10f).setTextPadding(15f).setLineThickness(1f).setFont(font).build();
+            TableBox boxTable = new TableBox.Builder().setLineColor(Color.BLACK).setFontSize(10f).setTextPadding(15f).setLineThickness(1f).setFont(font).build();
+            boxTable.setData(createData());
+            boxTable.setDocument(document);
             Instant start = Instant.now();
             document = boxTable.createTable().getDocument();
             Instant stop = Instant.now();

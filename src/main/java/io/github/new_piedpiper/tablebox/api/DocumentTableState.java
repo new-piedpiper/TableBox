@@ -2,6 +2,10 @@ package io.github.new_piedpiper.tablebox.api;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
+/**
+ * Model class for getting the cursor position of the document and the current page index after creating the table
+ * @author anugrahv
+ */
 public class DocumentTableState {
 
     private PDDocument document;
@@ -9,6 +13,10 @@ public class DocumentTableState {
     private float currentPosY;
     private int currentPage;
 
+    /**
+     * Fetch the document in which the table is created
+     * @return Document
+     */
     public PDDocument getDocument() {
         return document;
     }
@@ -17,6 +25,10 @@ public class DocumentTableState {
         this.document = document;
     }
 
+    /**
+     * Fetches the x coordinate of the last page.
+     * @return xCoordinate
+     */
     public float getCurrentPosX() {
         return currentPosX;
     }
@@ -25,6 +37,10 @@ public class DocumentTableState {
         this.currentPosX = currentPosX;
     }
 
+    /**
+     * Fetches the y coordinate of the last page.
+     * @return yCoordinate
+     */
     public float getCurrentPosY() {
         return currentPosY;
     }
@@ -33,6 +49,10 @@ public class DocumentTableState {
         this.currentPosY = currentPosY;
     }
 
+    /**
+     * Fetches the current page in which write cursor is present after creating the table.
+     * @return pageIndex(Index starts from 0)
+     */
     public int getCurrentPage() {
         return currentPage;
     }
