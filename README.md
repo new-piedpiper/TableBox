@@ -1,9 +1,6 @@
 
 # Swagatham!
-# TableBox
-================
-
-A Java package for creating tables in PDFs using Apache PDFBox.
+Tablebox is a java package for creating tables in PDFs using Apache PDFBox.
 
 ## Introduction
 ---------------
