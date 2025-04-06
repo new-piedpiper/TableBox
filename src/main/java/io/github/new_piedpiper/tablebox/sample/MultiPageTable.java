@@ -33,7 +33,7 @@ public class MultiPageTable {
             document = boxTable.createTable().getDocument();
             Instant stop = Instant.now();
             System.out.println("Time : " + Duration.between(start, stop).getNano());
-            document.save(new File("C:\\Users\\anugr\\Documents\\Projects\\TableBox\\sampleout\\MultiPageTable.pdf"));
+            document.save(new File("MultiPageTable.pdf"));
             document.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

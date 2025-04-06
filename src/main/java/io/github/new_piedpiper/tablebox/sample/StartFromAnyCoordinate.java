@@ -32,7 +32,7 @@ public class StartFromAnyCoordinate {
             document = boxTable.createTable().getDocument();
             Instant stop = Instant.now();
             System.out.println("Time : " + Duration.between(start, stop).getNano());
-            document.save(new File("C:\\Users\\anugr\\Documents\\Projects\\TableBox\\sampleout\\StartFromAnyCoordinate.pdf"));
+            document.save(new File("StartFromAnyCoordinate.pdf"));
             document.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
