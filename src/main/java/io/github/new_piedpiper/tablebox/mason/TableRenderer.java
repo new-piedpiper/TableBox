@@ -16,8 +16,13 @@ import java.io.IOException;
 public class TableRenderer {
 
     public static DocumentTableState drawTable(TableBox boxTable) {
-        PDPage page = new PDPage();
-        boxTable.getDocument().addPage(page);
+        PDPage page = null;
+        if(boxTable.getYstart() != null){
+            page = boxTable.getDocument().getPage(boxTable.getDocument().getNumberOfPages()-1);
+        }else {
+            page = new PDPage();
+            boxTable.getDocument().addPage(page);
+        }
         LayoutContext layoutContext = boxTable.getLayoutContext();
         TextContext textContext = boxTable.getTextContext();
         try {
@@ -25,7 +30,12 @@ public class TableRenderer {
             PDRectangle boundingBox = page.getBBox();
             Table table = boxTable.getTable();
             layoutContext.setContentStream(contentStream);
-            setTableDimensions(table, boundingBox);
+            PDRectangle startTableFrom = null;
+            if(boxTable.getYstart() != null){
+                startTableFrom = new PDRectangle();
+                startTableFrom.setUpperRightY(boxTable.getYstart());
+            }
+            setTableDimensions(table, boundingBox, startTableFrom);
             textContext.setTableEndY(table.getTableDimensions().getLowerLeftY());
             layoutContext.setTableWidth(table.getTableDimensions().getWidth());
             textContext.setContentStream(contentStream);
@@ -48,6 +58,7 @@ public class TableRenderer {
                     textContext.setStartingPtX(textContext.getStartingPtX() + layoutContext.getColumnWidth());
                     layoutContext.setyStop(textContext.getEndPtY() < layoutContext.getyStop() ? textContext.getEndPtY() : layoutContext.getyStop());
                 }
+                textContext.setColumnNameFont(null);
                 LayoutEngine.drawVerticalGridLines(layoutContext, table);
                 if (layoutContext.getyStop() <= textContext.getTableEndY() || !textContext.getPageOverFlows().isEmpty()) {
                     contentStream.close();
@@ -77,12 +88,16 @@ public class TableRenderer {
         return docTableState;
     }
 
-    private static void setTableDimensions(Table table, PDRectangle pageDimensions) {
+    private static void setTableDimensions(Table table, PDRectangle pageDimensions, PDRectangle startRect) {
         Float heightPadding = pageDimensions.getHeight() * 0.10f;
         Float widthPadding = pageDimensions.getWidth() * 0.15f;
         PDRectangle tableDimensions = new PDRectangle();
         tableDimensions.setUpperRightX(pageDimensions.getUpperRightX() - widthPadding);
-        tableDimensions.setUpperRightY(pageDimensions.getUpperRightY() - heightPadding);
+        if(startRect != null) {
+            tableDimensions.setUpperRightY(startRect.getUpperRightY());
+        }else {
+            tableDimensions.setUpperRightY(pageDimensions.getUpperRightY() - heightPadding);
+        }
         tableDimensions.setLowerLeftY(pageDimensions.getLowerLeftY() + heightPadding);
         tableDimensions.setLowerLeftX(pageDimensions.getLowerLeftX() + widthPadding);
         table.setTableDimensions(tableDimensions);
@@ -91,6 +106,7 @@ public class TableRenderer {
     public static PDPageContentStream flowToNewPage(LayoutContext layoutContext, TextContext textContext, PDDocument document, Table table) throws IOException {
         PDPage page = new PDPage(document.getPage(document.getNumberOfPages()-1).getBBox());
         document.addPage(page);
+        setTableDimensions(table, page.getBBox(), null);
         PDPageContentStream contentStream = new PDPageContentStream(document, page);
             layoutContext.setContentStream(contentStream);
             contentStream.setLineWidth(layoutContext.getLineWidth());

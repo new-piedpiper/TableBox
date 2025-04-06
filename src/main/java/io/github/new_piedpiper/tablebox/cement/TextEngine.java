@@ -2,16 +2,22 @@ package io.github.new_piedpiper.tablebox.cement;
 
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDFontLike;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class TextEngine {
 
     public static void drawText(TextContext textContext) throws IOException {
-        PDFont font = textContext.getFont();
+        PDFont columnNameFont = textContext.getColumnNameFont();
+        PDFont font = columnNameFont != null ? columnNameFont : textContext.getFont();
         PDPageContentStream contentStream = textContext.getContentStream();
         contentStream.setFont(font, textContext.getFontSize());
         contentStream.beginText();
+        contentStream.setNonStrokingColor(textContext.getFontColor());
         contentStream.newLineAtOffset(textContext.getStartingPtX() + textContext.getTextPadding(), textContext.getStartingPtY() - textContext.getTextPadding());
         Float fontSize = textContext.getFontSize();
         String[] chars = textContext.getCurrText().split("");

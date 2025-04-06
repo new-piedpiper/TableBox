@@ -6,7 +6,7 @@
 
     <groupId>io.github.new-piedpiper</groupId>
     <artifactId>TableBox</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>APIs for creating tables on top of the Apache PdfBox</description>
     <url>https://github.com/new-piedpiper/TableBox</url>
@@ -34,7 +34,6 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <property name="maven.compiler.excludes" value="**/src/main/java/io/github/new_piedpiper/tablebox/sample"/>
     </properties>
 
     <dependencies>
@@ -60,9 +59,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <includes>
-                        <include>io/github/new_pipedpiper/tablebox/api</include>
-                    </includes>
+                    <excludePackageNames>*.sample:*.bricks:*.cement:*.mason</excludePackageNames>
                 </configuration>
             </plugin>
             <plugin>
@@ -98,7 +95,7 @@
                 <version>3.2.0</version>
                 <configuration>
                     <excludes>
-                        <exclude>io/github/new_pipedpiper/tablebox/sample/**</exclude>
+                        <exclude>**/sample</exclude>
                     </excludes>
                 </configuration>
             </plugin>

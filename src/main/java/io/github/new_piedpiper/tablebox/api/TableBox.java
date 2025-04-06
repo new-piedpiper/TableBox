@@ -23,6 +23,8 @@ public class TableBox {
     private Float lineThickness = 2f;
     private Color lineColor = Color.BLACK;
     private Table table;
+    private Float xStart;
+    private Float ystart;
 
     public Table getTable() {
         return table;
@@ -42,13 +44,15 @@ public class TableBox {
 
     private TableBox(Builder builder){
         LayoutContext layoutContext = new LayoutContext();
+        TextContext textContext = new TextContext();
         layoutContext.setLineColor(builder.lineColor == null? lineColor : builder.lineColor);
         layoutContext.setLineWidth(builder.lineThickness == null? lineThickness : builder.lineThickness);
         this.layoutContext = layoutContext;
-        TextContext textContext = new TextContext();
         textContext.setFontSize(builder.fontSize);
+        textContext.setFontColor(builder.fontColor);
         textContext.setFont(builder.font);
         textContext.setTextPadding(builder.textPadding);
+        textContext.setColumnNameFont(builder.columnNameFont);
         float textHeight = builder.font.getFontDescriptor().getAscent() / 1000 * builder.fontSize - builder.font.getFontDescriptor().getDescent() / 1000 * builder.fontSize;
         textContext.setTextHeight(textHeight);
         this.textContext = textContext;
@@ -62,6 +66,8 @@ public class TableBox {
         private Color lineColor;
         private Float fontSize;
         private Float textPadding;
+        private Color fontColor = Color.black;
+        private PDFont columnNameFont;
 
         public TableBox build(){
             return new TableBox(this);
@@ -106,6 +112,24 @@ public class TableBox {
             this.textPadding = textPadding;
             return this;
         }
+
+        /**
+         * Specify whether the first row in the data is the column names. This
+         * will allow for special treatment to be given to the row.
+         */
+        public Builder setColumnNameFont(PDFont columnNameFont){
+            this.columnNameFont = columnNameFont;
+            return this;
+        }
+
+        /**
+         * @param fontColor
+         * Sepcify the font color. Default is black
+         */
+        public Builder setFontColor(Color fontColor){
+            this.fontColor = fontColor;
+            return this;
+        }
     }
 
     /**
@@ -129,4 +153,21 @@ public class TableBox {
         this.document = document;
     }
 
+    public void setXStart(Float xStart){
+        this.xStart = xStart;
+    }
+
+    public void setYstart(Float ystart){
+        this.ystart = ystart;
+    }
+
+    public Float getYstart(){
+        return this.ystart;
+    }
+
+    public Float getXstart(){
+        return this.xStart;
+    }
+
 }
+

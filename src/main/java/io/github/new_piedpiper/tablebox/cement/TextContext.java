@@ -3,6 +3,7 @@ package io.github.new_piedpiper.tablebox.cement;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -20,6 +21,24 @@ public class TextContext {
     private String currText;
     private Float fontSize;
     private Float textPadding;
+    private PDFont columnNameFont;
+    private Color fontColor;
+
+    public Color getFontColor() {
+        return fontColor;
+    }
+
+    public void setFontColor(Color fontColor) {
+        this.fontColor = fontColor;
+    }
+
+    public PDFont getColumnNameFont() {
+        return columnNameFont;
+    }
+
+    public void setColumnNameFont(PDFont columnNameFont) {
+        this.columnNameFont = columnNameFont;
+    }
 
     public Float getTableEndY() {
         return tableEndY;

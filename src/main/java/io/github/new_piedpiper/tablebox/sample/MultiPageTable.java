@@ -2,7 +2,6 @@ package io.github.new_piedpiper.tablebox.sample;
 
 import io.github.new_piedpiper.tablebox.api.TableBox;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 
@@ -18,15 +17,23 @@ public class MultiPageTable {
     public static void main(String... args) {
         PDDocument document = new PDDocument();
         try {
-            PDFont font = new PDType1Font(Standard14Fonts.FontName.HELVETICA);
-            TableBox boxTable = new TableBox.Builder().setLineColor(Color.BLACK).setFontSize(10f).setTextPadding(15f).setLineThickness(1f).setFont(font).build();
+            PDType1Font font = new PDType1Font(Standard14Fonts.FontName.HELVETICA);
+            TableBox boxTable = new TableBox.Builder().
+                    setColumnNameFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD)).
+                    setLineColor(Color.RED).
+                    setFontSize(10f).
+                    setTextPadding(15f).
+                    setFontColor(Color.GRAY).
+                    setLineThickness(1f).
+                    setFont(font).
+                    build();
             boxTable.setData(createData());
             boxTable.setDocument(document);
             Instant start = Instant.now();
             document = boxTable.createTable().getDocument();
             Instant stop = Instant.now();
             System.out.println("Time : " + Duration.between(start, stop).getNano());
-            document.save(new File("../file.pdf"));
+            document.save(new File("C:\\Users\\anugr\\Documents\\Projects\\TableBox\\sampleout\\MultiPageTable.pdf"));
             document.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
